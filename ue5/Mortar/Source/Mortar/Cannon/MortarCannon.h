@@ -11,8 +11,6 @@ class MORTAR_API AMortarCannon : public AActor
 	
 public:	
 	AMortarCannon();
-	
-	virtual void Tick(float DeltaTime) override;
 
 	bool GetPlayerIsNearly() const { return PlayerIsNealy; };
 	
