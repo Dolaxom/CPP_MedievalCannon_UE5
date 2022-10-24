@@ -14,7 +14,7 @@ public:
 
 	bool GetPlayerIsNearly() const { return PlayerIsNealy; };
 	
-	void Shoot() const;
+	void Shoot();
 	void RotateForward();
 	void RotateBack();
 	
@@ -44,6 +44,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mortar | Parameters")
 	USoundBase* SoundShoot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mortar | Parameters")
+	float ReloadSpeed = 3.0f;
 	
 private:
 	UFUNCTION()
@@ -55,5 +58,10 @@ private:
 	UPROPERTY()
 	class APlayerCharacter* Player;
 
+	void SwitchBool();
+
+	bool CanShoot = true;
 	bool PlayerIsNealy = false;
+
+	FTimerHandle TimerShoot;
 };

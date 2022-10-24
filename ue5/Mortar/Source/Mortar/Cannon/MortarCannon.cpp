@@ -50,9 +50,14 @@ void AMortarCannon::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	}
 }
 
-void AMortarCannon::Shoot() const
+void AMortarCannon::SwitchBool()
 {
-	if (!IsValid(Cannonball))
+	CanShoot = !CanShoot;
+}
+
+void AMortarCannon::Shoot()
+{
+	if (!IsValid(Cannonball) || !CanShoot)
 	{
 		return;
 	}
@@ -67,6 +72,8 @@ void AMortarCannon::Shoot() const
 	}
 	
 	GetWorld()->SpawnActor(Cannonball, &SpawnCannonballPos, &SpawnCannonballRot);
+	CanShoot = false;
+	GetWorld()->GetTimerManager().SetTimer(TimerShoot, this, &AMortarCannon::SwitchBool, ReloadSpeed, false);
 }
 
 void AMortarCannon::RotateForward()
@@ -74,7 +81,7 @@ void AMortarCannon::RotateForward()
 	if (GetActorRotation().Pitch > 19.0f && GetActorRotation().Pitch < 70.0f)
 	{
 		const FQuat QuatRotation = FQuat(FRotator(PitchSpeedRotation, 0, 0));
-		AddActorLocalRotation(QuatRotation, false, nullptr);		
+		AddActorLocalRotation(QuatRotation, false, nullptr);
 	}
 }
 
